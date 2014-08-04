@@ -1,0 +1,51 @@
+<html>
+    <head>
+        <script src="pubsub.js"></script>
+        <script>
+            
+            var Object1 = {
+                subscribeToNotification: function(topicName, proc){
+                    PubSubManager.getInstance().subscribe(topicName, proc);
+                },
+                
+                handleNotification: function(notification){
+                    console.log("Object1: received notification data: '" + notification + "'");
+                },
+                
+                publishNotification: function(notification){
+                    console.log("Object1: publishing notification : '" + notification.name + "' with data: '" + notification.data + "'");
+                    PubSubManager.getInstance().publish(notification.name, notification.data);
+                }
+            }
+            
+            var Object2 = {
+                subscribeToNotification: function(topicName, proc){
+                    PubSubManager.getInstance().subscribe(topicName, proc);
+                },
+                
+                handleNotification: function(notification){
+                    console.log("Object2: received notification data: '" + notification + "'");
+                },
+                
+                publishNotification: function(notification){
+                    console.log("Object2: publishing notification : '" + notification.name + "' with data: '" + notification.data + "'");
+                    PubSubManager.getInstance().publish(notification.name, notification.data);
+                }
+            }
+            
+            //test
+            var topic1 = {name: "topic1", data:"this is topic1 data"};
+            
+            Object1.subscribeToNotification("topic1", Object1.handleNotification);
+            Object2.publishNotification(topic1);
+            
+            var topic2 = {name: "topic2", data:"this is topic2 data"};
+            
+            Object2.subscribeToNotification("topic2", Object2.handleNotification);
+            Object1.publishNotification(topic2);
+            
+        </script>
+    </head>
+    <body>
+    </body>
+</html>
